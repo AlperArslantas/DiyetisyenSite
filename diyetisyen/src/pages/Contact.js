@@ -74,8 +74,8 @@ const Contact = () => {
 
     try {
       await emailjs.send(
-        'service_9827sna',
-        'template_6l4oydx',
+        process.env.REACT_APP_EMAILJS_SERVICE_ID,
+        process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
         {
           to_name: 'Alper',
           from_name: formData.name,
@@ -84,7 +84,7 @@ const Contact = () => {
           message: formData.message,
           to_email: 'alper71071@gmail.com'
         },
-        'YOUR_PUBLIC_KEY'
+        process.env.REACT_APP_EMAILJS_PUBLIC_KEY
       );
 
       setStatus({
