@@ -1,0 +1,144 @@
+.footer {
+  padding: 30px 0;
+  margin-top: 50px;
+  border-top: 2px solid #ffaa80;; 
+  background-color: #faf0e6; /* Linen arka plan rengi */
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.footer p {
+  margin-bottom: 25px;
+  color: #4B5320;
+  font-size: 1rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 25px;
+  margin-top: 10px;
+}
+
+.social-link {
+  color: #556B2F;
+  text-decoration: none;
+  font-size: 24px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.social-link::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #A9B883, #4B5320);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.social-link i {
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-link:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.social-link:hover::before {
+  opacity: 1;
+}
+
+.social-link:hover i {
+  color: #ffffff;
+  transform: scale(1.2);
+}
+
+/* Özel sosyal medya renkleri */
+.social-link:nth-child(1):hover::before { /* Instagram */
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+
+.social-link:nth-child(2):hover::before { /* Facebook */
+  background: linear-gradient(45deg, #3b5998, #2b4170);
+}
+
+.social-link:nth-child(3):hover::before { /* Twitter */
+  background: linear-gradient(45deg, #1DA1F2, #19608F);
+}
+
+.social-link:nth-child(4):hover::before { /* YouTube */
+  background: linear-gradient(45deg, #FF0000, #CC0000);
+}
+
+.social-link:nth-child(5):hover::before { /* WhatsApp */
+  background: linear-gradient(45deg, #25D366, #128C7E);
+}
+
+@media (max-width: 768px) {
+  .social-link {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+  
+  .social-links {
+    gap: 15px;
+  }
+}
+
+.social-icons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.social-icons a {
+  color: #ffaa80;
+  font-size: 24px;
+  transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #ff9966;
+  transform: translateY(-3px);
+}
+
+.whatsapp-link {
+  position: relative;
+}
+
+.whatsapp-link:hover::after {
+  content: "WhatsApp'tan mesaj gönderin";
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+}

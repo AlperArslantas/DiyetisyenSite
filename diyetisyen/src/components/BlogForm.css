@@ -1,0 +1,121 @@
+.blog-form-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.blog-form-container h2 {
+  color: #ffaa80;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 10px;
+  color: #666;
+  font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #ffd9b3;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-group textarea {
+  min-height: 200px;
+  resize: vertical;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #ffaa80;
+  box-shadow: 0 0 0 3px rgba(255, 170, 128, 0.1);
+}
+
+.form-group input[type="file"] {
+  display: block;
+  margin-top: 10px;
+}
+
+.image-preview {
+  margin-top: 20px;
+  max-width: 300px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.image-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.submit-button {
+  background: linear-gradient(45deg, #ffaa80, #ffcc99);
+  color: white;
+  padding: 14px 30px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.submit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 170, 128, 0.2);
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Toast stilleri */
+.Toastify__toast {
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.Toastify__toast--success {
+  background: #ffaa80;
+}
+
+.Toastify__toast--error {
+  background: #ff6b6b;
+}
+
+@media (max-width: 768px) {
+  .blog-form-container {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .blog-form-container h2 {
+    font-size: 1.8rem;
+  }
+
+  .submit-button {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
+} 

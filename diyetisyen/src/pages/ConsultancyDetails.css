@@ -1,0 +1,83 @@
+.consultancy-details-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  background-color: #fff5e6;
+  border-radius: 30px;
+}
+
+.details-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.details-header h1 {
+  font-size: 2.5rem;
+  color: #ffaa80;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.title-underline {
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(to right, #ffcc99, #ffaa80);
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.details-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.content-section {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(255, 170, 128, 0.1);
+}
+
+.content-section p {
+  color: #666;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.intro-section {
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.info-section {
+  border-left: 4px solid #ffaa80;
+}
+
+.experience-section {
+  background: linear-gradient(45deg, #ffaa80, #ffcc99) !important;
+  color: white !important;
+}
+
+.experience-section h2,
+.experience-section p {
+  color: white !important;
+}
+
+@media (max-width: 768px) {
+  .consultancy-details-container {
+    padding: 40px 20px;
+  }
+
+  .details-header h1 {
+    font-size: 2rem;
+  }
+
+  .content-section {
+    padding: 25px;
+  }
+
+  .content-section p {
+    font-size: 1rem;
+  }
+} 
