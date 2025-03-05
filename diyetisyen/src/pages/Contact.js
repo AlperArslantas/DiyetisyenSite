@@ -138,7 +138,7 @@ const Contact = () => {
           <div className="form-group">
             <label htmlFor="name">
               <i className="fas fa-user"></i>
-              İsim Soyisim
+              Ad Soyad
             </label>
             <input
               type="text"

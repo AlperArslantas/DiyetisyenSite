@@ -34,7 +34,7 @@
   font-size: 1.8rem;
   font-weight: 700;
   margin: 0;
-  color: #D35400;
+  color: #ffaa80;
   position: relative;
   display: inline-block;
 }
@@ -46,14 +46,14 @@
   height: 2px;
   bottom: -2px;
   left: 0;
-  background-color: #D35400;
+  background-color: #ffaa80;
 }
 
 .navbar-brand h2 {
   font-size: 1rem;
   font-weight: 400;
   margin: 0;
-  color: #E67E22;
+  color: #ffaa80;
   text-align: center;
   margin-top: 5px;
 }
