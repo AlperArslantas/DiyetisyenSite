@@ -1,5 +1,3 @@
-
-
 /* Diğer CSS kodları buraya gelecek */
 
 body {
@@ -9,7 +7,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #faf0e6; /* Linen arka plan rengi */
+  background-color: #fdecd7; /* Şeftali tonu arka plan */
 }
 
 code {

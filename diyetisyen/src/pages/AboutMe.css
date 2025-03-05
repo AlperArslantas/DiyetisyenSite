@@ -67,11 +67,11 @@
   height: 100%;
   border-radius: 50%;
   overflow: hidden;
-  background-color: #ffd9b3;
+  background-color: #ffaa80;
   position: relative;
   z-index: 2;
   border: 5px solid white;
-  box-shadow: 0 5px 20px rgba(255, 170, 128, 0.1);
+  box-shadow: 0 5px 20px rgba(255, 170, 128, 0.2);
 }
 
 .profile-image-circle img {
@@ -93,7 +93,7 @@
   position: absolute;
   width: 80px;
   height: 120px;
-  background-color: #ffcc99;
+  background-color: #ffaa80;
   opacity: 0.6;
   border-radius: 50% 0;
 }

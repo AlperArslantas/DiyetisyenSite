@@ -2,13 +2,14 @@
   max-width: 100%;
   margin: 0 auto;
   position: relative;
+  background-color: #fdecd7;
 }
 
 .hero-section {
   display: flex;
   min-height: calc(100vh - 83px);
   position: relative;
-  background-color:  #faf0e6;
+  background-color: #fdecd7;
 }
 
 .hero-section::before {
@@ -18,7 +19,7 @@
   top: 0;
   width: 50%;
   height: 100%;
-  background-image: url('../assets/back.jpg');
+  background-image: linear-gradient(to right, rgba(255, 170, 128, 0.1), rgba(255, 170, 128, 0.05));
   z-index: 1;
   animation: slideInRight 1s ease-out forwards;
   transform-origin: left;
@@ -31,7 +32,7 @@
   top: 0;
   width: 50%;
   height: 100%;
-  background-image: url('../assets/back.jpg');
+  background-image: linear-gradient(to left, rgba(255, 170, 128, 0.1), rgba(255, 170, 128, 0.05));
   z-index: 1;
   animation: slideInRight 1s ease-out forwards;
   transform-origin: right;
@@ -118,7 +119,7 @@
   width: 100%;
   height: 100%;
   position: relative;
-  background-color: #e4a787;
+  background-color: #ffaa80;
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.3s ease;
