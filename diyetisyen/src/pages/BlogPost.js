@@ -26,7 +26,7 @@ const BlogPost = () => {
   const shareUrl = window.location.href;
 
   return (
-    <div className="blog-post-container">
+    <div className="blog-post-container page-transition">
       <div className="blog-post-header">
         <h1>{post.title}</h1>
         <div className="blog-post-date">

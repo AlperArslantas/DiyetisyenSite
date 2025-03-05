@@ -35,7 +35,7 @@ const AboutMe = () => {
   }, []);
 
   return (
-    <div className="about-container">
+    <div className="about-container page-transition">
       <div className="about-header">
         <h1>Hakkımda</h1>
         <p className="about-description">{introText}</p>

@@ -27,7 +27,7 @@ const ConsultancyDetails = () => {
   }, []);
 
   return (
-    <div className="consultancy-details-container">
+    <div className="consultancy-details-container page-transition">
       <div className="details-header">
         <h1>{detailsContent.title || 'Danışmanlık Hizmetlerimiz'}</h1>
         <div className="title-underline"></div>

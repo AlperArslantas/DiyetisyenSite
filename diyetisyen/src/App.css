@@ -75,3 +75,17 @@ button {
     transform: rotate(360deg);
   }
 }
+
+.page-transition {
+  animation: fadeIn 0.4s ease-out;
+  will-change: opacity;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

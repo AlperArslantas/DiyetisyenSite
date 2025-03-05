@@ -42,7 +42,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="home-container">
+    <div className="home-container page-transition">
       <section className="hero-section">
         <div className="hero-content">
           <div className="welcome-text">
