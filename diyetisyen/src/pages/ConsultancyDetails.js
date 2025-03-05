@@ -6,7 +6,7 @@ import './ConsultancyDetails.css';
 const ConsultancyDetails = () => {
   const [detailsContent, setDetailsContent] = useState({
     title: '',
-    content: ''
+    paragraphs: []
   });
 
   useEffect(() => {
@@ -35,7 +35,9 @@ const ConsultancyDetails = () => {
 
       <div className="details-content">
         <div className="content-section">
-          <p>{detailsContent.content}</p>
+          {detailsContent.paragraphs?.map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
+          ))}
         </div>
       </div>
     </div>

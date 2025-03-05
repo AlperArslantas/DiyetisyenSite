@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { collection, doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import './Home.css';
-import anasayfaImage from '../assets/anasayfa.jpeg';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBlogPosts } from '../redux/blogSlice';
 
@@ -11,6 +10,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const posts = useSelector(state => state.blog.posts);
   const [heroText, setHeroText] = useState('');
+  const [heroTitle, setHeroTitle] = useState('');
   const [heroImage, setHeroImage] = useState('');
 
   useEffect(() => {
@@ -28,7 +28,8 @@ const Home = () => {
         ]);
         
         if (docSnap.exists()) {
-          setHeroText(docSnap.data().text);
+          setHeroTitle(docSnap.data().title || '');
+          setHeroText(docSnap.data().text || '');
         }
         if (imagesSnap.exists() && imagesSnap.data()['anasayfa-hero-image']) {
           setHeroImage(imagesSnap.data()['anasayfa-hero-image']);
@@ -47,16 +48,18 @@ const Home = () => {
         <div className="hero-content">
           <div className="welcome-text">
             <h1>MERHABA!</h1>
-            <p>Ben Diyetisyen Halime,</p>
+            <p>{heroTitle || 'Ben Diyetisyen Halime'},</p>
             <p>{heroText}</p>
           </div>
           <div className="home-profile-container">
-            <img 
-              src={heroImage || anasayfaImage} 
-              alt="Diyetisyen Halime Akdoğan" 
-              className="home-profile-image"
-              loading="lazy"
-            />
+            {heroImage && (
+              <img 
+                src={heroImage}
+                alt="Diyetisyen Halime Akdoğan" 
+                className="home-profile-image"
+                loading="lazy"
+              />
+            )}
           </div>
         </div>
       </section>

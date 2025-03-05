@@ -37,7 +37,7 @@ const ServiceModal = ({ isOpen, onClose, service }) => {
     fetchServiceData();
   }, [service]);
 
-  if (!isOpen || !service) return null;
+  if (!isOpen || !service || !serviceData) return null;
 
   const handleContact = () => {
     onClose();
@@ -51,12 +51,28 @@ const ServiceModal = ({ isOpen, onClose, service }) => {
           <i className="fas fa-times"></i>
         </button>
         
-        <h2>{service.title}</h2>
-        <p className="service-description">{service.description}</p>
+        <h2>{serviceData.title}</h2>
+        {serviceData.isDescriptionList ? (
+          <ul className="details-list">
+            {serviceData.description.split('\n').map((item, index) => (
+              item.trim() && <li key={index}>{item.trim()}</li>
+            ))}
+          </ul>
+        ) : (
+          <p className="service-description">{serviceData.description}</p>
+        )}
         
         <div className="service-section">
           <h3>Hizmet Detayları</h3>
-          <p className="service-details-text">{service.details}</p>
+          {serviceData.isList ? (
+            <ul className="details-list">
+              {serviceData.details.split('\n').map((item, index) => (
+                item.trim() && <li key={index}>{item.trim()}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="service-details-text">{serviceData.details}</p>
+          )}
         </div>
 
         <button className="contact-button" onClick={handleContact}>

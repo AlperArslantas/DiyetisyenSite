@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import './AboutMe.css';
-import benKimimImage from '../assets/benKimimImage.jpeg';
 
 const AboutMe = () => {
   const [introText, setIntroText] = useState('');
@@ -16,7 +15,7 @@ const AboutMe = () => {
         const introDoc = await getDoc(doc(db, 'contents', 'hakkimda-intro'));
         const detailDoc = await getDoc(doc(db, 'contents', 'hakkimda-detay'));
         const imagesDoc = await getDoc(doc(db, 'contents', 'images'));
-        
+
         if (introDoc.exists()) {
           setIntroText(introDoc.data().text);
         }
@@ -47,20 +46,22 @@ const AboutMe = () => {
       <div className="about-profile">
         <div className="profile-image-container">
           <div className="profile-image-circle">
-            <img src={aboutImage || benKimimImage} alt="Diyetisyen" loading="lazy" />
+            {aboutImage && (
+              <img 
+                src={aboutImage} 
+                alt="Diyetisyen Halime Akdoğan"
+                loading="lazy"
+              />
+            )}
           </div>
           <div className="decorative-elements">
             <div className="leaf leaf-1"></div>
             <div className="leaf leaf-2"></div>
             <div className="leaf leaf-3"></div>
-            <div className="berry berry-1"></div>
-            <div className="berry berry-2"></div>
           </div>
         </div>
         <h2 className="welcome-text">{detailText}</h2>
       </div>
-
-     
     </div>
   );
 };

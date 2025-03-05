@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs, doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { getAuth } from 'firebase/auth';
 import { toast } from 'react-toastify';
@@ -20,8 +20,9 @@ const ContentManager = () => {
     title: '',
     description: '',
     details: '',
-    duration: '',
-    process: ''
+    process: '',
+    isList: false,
+    isDescriptionList: false
   });
 
   const [contactInfo, setContactInfo] = useState({
@@ -153,13 +154,19 @@ const ContentManager = () => {
     if (contentId === 'danismanlik-details') {
       setEditedText(JSON.stringify({
         title: contents[contentId].title || '',
-        content: contents[contentId].content || ''
+        paragraphs: contents[contentId].paragraphs || []
       }, null, 2));
     } else if (contentId.startsWith('danismanlik-') && contentId !== 'danismanlik-intro') {
       setEditedText(JSON.stringify({
         title: contents[contentId].title || '',
         description: contents[contentId].description || '',
-        details: contents[contentId].details || ''
+        details: contents[contentId].details || '',
+        isList: contents[contentId].isList || false
+      }, null, 2));
+    } else if (contentId === 'anasayfa-hero') {
+      setEditedText(JSON.stringify({
+        title: contents[contentId].title || '',
+        text: contents[contentId].text || ''
       }, null, 2));
     } else {
       setEditedText(contents[contentId].text || '');
@@ -206,28 +213,37 @@ const ContentManager = () => {
     if (!editingContent) return;
 
     try {
-      let contentToSave;
-      
-      if (editingContent.startsWith('danismanlik-') && editingContent !== 'danismanlik-intro' && editingContent !== 'danismanlik-details') {
+      if (editingContent === 'danismanlik-details') {
         const parsedContent = JSON.parse(editedText);
-        contentToSave = {
+        await updateDoc(doc(db, 'contents', editingContent), {
+          title: parsedContent.title,
+          paragraphs: parsedContent.paragraphs || []
+        });
+      } else if (editingContent === 'anasayfa-hero') {
+        const parsedContent = JSON.parse(editedText);
+        await updateDoc(doc(db, 'contents', editingContent), {
+          title: parsedContent.title,
+          text: parsedContent.text
+        });
+      } else if (editingContent.startsWith('danismanlik-') && editingContent !== 'danismanlik-intro') {
+        const parsedContent = JSON.parse(editedText);
+        await updateDoc(doc(db, 'contents', editingContent), {
           title: parsedContent.title,
           description: parsedContent.description,
-          details: parsedContent.details
-        };
+          details: parsedContent.details,
+          isList: parsedContent.isList || false
+        });
       } else {
-        contentToSave = { text: editedText };
+        await updateDoc(doc(db, 'contents', editingContent), {
+          text: editedText
+        });
       }
 
-      await setDoc(doc(db, 'contents', editingContent), contentToSave);
-      
-      setContents(prev => ({
-        ...prev,
-        [editingContent]: contentToSave
-      }));
+      await fetchContents();
       
       setEditingContent(null);
       setEditedText('');
+      setEditedItems([]);
       toast.success('İçerik başarıyla güncellendi!');
     } catch (error) {
       console.error('İçerik kaydedilirken hata:', error);
@@ -282,25 +298,79 @@ const ContentManager = () => {
     return titles[id] || id;
   };
 
-  const renderEditForm = (id, content) => {
-    if (id === 'danismanlik-details') {
+  const renderEditForm = () => {
+    if (editingContent === 'danismanlik-details') {
+      const content = JSON.parse(editedText);
+      return (
+        <div className="edit-form">
+          <div className="form-group">
+            <label>Başlık:</label>
+            <input
+              type="text"
+              value={content.title || ''}
+              onChange={(e) => {
+                const newContent = { ...content, title: e.target.value };
+                setEditedText(JSON.stringify(newContent));
+              }}
+            />
+          </div>
+          <div className="form-group">
+            <label>Paragraflar:</label>
+            {content.paragraphs?.map((paragraph, index) => (
+              <div key={index} className="paragraph-group">
+                <textarea
+                  value={paragraph}
+                  onChange={(e) => {
+                    const newParagraphs = [...(content.paragraphs || [])];
+                    newParagraphs[index] = e.target.value;
+                    const newContent = { ...content, paragraphs: newParagraphs };
+                    setEditedText(JSON.stringify(newContent));
+                  }}
+                  placeholder={`Paragraf ${index + 1}`}
+                />
+                <button 
+                  className="delete-paragraph"
+                  onClick={() => {
+                    const newParagraphs = content.paragraphs.filter((_, i) => i !== index);
+                    const newContent = { ...content, paragraphs: newParagraphs };
+                    setEditedText(JSON.stringify(newContent));
+                  }}
+                >
+                  <i className="fas fa-trash"></i> Paragrafı Sil
+                </button>
+              </div>
+            ))}
+            <button 
+              className="add-paragraph"
+              onClick={() => {
+                const newParagraphs = [...(content.paragraphs || []), ''];
+                const newContent = { ...content, paragraphs: newParagraphs };
+                setEditedText(JSON.stringify(newContent));
+              }}
+            >
+              <i className="fas fa-plus"></i> Yeni Paragraf Ekle
+            </button>
+          </div>
+        </div>
+      );
+    } else if (editingContent === 'anasayfa-hero') {
       let parsedContent;
       try {
         parsedContent = typeof editedText === 'string' ? JSON.parse(editedText) : {
-          title: content.title || '',
-          content: content.content || ''
+          title: contents[editingContent].title || '',
+          text: contents[editingContent].text || ''
         };
       } catch (error) {
         parsedContent = {
-          title: content.title || '',
-          content: content.content || ''
+          title: contents[editingContent].title || '',
+          text: contents[editingContent].text || ''
         };
       }
 
       return (
         <div className="service-edit-form">
           <div className="form-group">
-            <label>Başlık</label>
+            <label>Ben Diyetisyen Halime</label>
             <input
               type="text"
               value={parsedContent.title}
@@ -314,34 +384,34 @@ const ContentManager = () => {
             />
           </div>
           <div className="form-group">
-            <label>İçerik</label>
+            <label>Hero Metni</label>
             <textarea
-              value={parsedContent.content}
+              value={parsedContent.text}
               onChange={(e) => {
                 const newContent = {
                   ...parsedContent,
-                  content: e.target.value
+                  text: e.target.value
                 };
                 setEditedText(JSON.stringify(newContent, null, 2));
               }}
-              rows="15"
+              rows="8"
             />
           </div>
         </div>
       );
-    } else if (id.startsWith('danismanlik-') && id !== 'danismanlik-intro') {
+    } else if (editingContent.startsWith('danismanlik-') && editingContent !== 'danismanlik-intro') {
       let parsedContent;
       try {
         parsedContent = typeof editedText === 'string' ? JSON.parse(editedText) : {
-          title: content.title || '',
-          description: content.description || '',
-          details: content.details || ''
+          title: contents[editingContent].title || '',
+          description: contents[editingContent].description || '',
+          details: contents[editingContent].details || ''
         };
       } catch (error) {
         parsedContent = {
-          title: content.title || '',
-          description: content.description || '',
-          details: content.details || ''
+          title: contents[editingContent].title || '',
+          description: contents[editingContent].description || '',
+          details: contents[editingContent].details || ''
         };
       }
 
@@ -382,7 +452,7 @@ const ContentManager = () => {
           </div>
         </div>
       );
-    } else if (id === 'iletisim-bilgileri') {
+    } else if (editingContent === 'iletisim-bilgileri') {
       return (
         <div className="contact-info-form">
           <div className="form-group">
@@ -405,11 +475,11 @@ const ContentManager = () => {
           </div>
         </div>
       );
-    } else if (id === 'danismanlik-intro' || id === 'hakkimda-intro' || id === 'hakkimda-detay' || id === 'anasayfa-hero' || id === 'iletisim-intro' || id === 'ozgecmis-about') {
+    } else if (editingContent === 'danismanlik-intro' || editingContent === 'hakkimda-intro' || editingContent === 'hakkimda-detay' || editingContent === 'anasayfa-hero' || editingContent === 'iletisim-intro' || editingContent === 'ozgecmis-about') {
       return (
         <div className="text-edit-form">
           <div className="form-group">
-            <label>{getContentTitle(id)}</label>
+            <label>{getContentTitle(editingContent)}</label>
             <textarea
               value={editedText}
               onChange={(e) => setEditedText(e.target.value)}
@@ -435,11 +505,48 @@ const ContentManager = () => {
       );
     } else if (id === 'danismanlik-details') {
       return (
-        <div className="content-preview">
-          <h4>{content.title || 'Başlık'}</h4>
-          <div className="content-text" style={{ whiteSpace: 'pre-wrap' }}>
-            {content.content || ''}
+        <div className="content-display">
+          <h3>{content.title}</h3>
+          <div className="paragraphs">
+            {content.paragraphs?.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
           </div>
+        </div>
+      );
+    } else if (id === 'anasayfa-hero') {
+      return (
+        <div className="content-preview">
+          <h4>{content.title || 'Ben Diyetisyen Halime'}</h4>
+          <div className="content-text" style={{ whiteSpace: 'pre-wrap' }}>
+            {content.text || ''}
+          </div>
+        </div>
+      );
+    } else if (id.startsWith('danismanlik-') && id !== 'danismanlik-intro') {
+      return (
+        <div className="content-preview">
+          <h4>{content.title}</h4>
+          {content.isDescriptionList ? (
+            <ul className="details-list">
+              {content.description.split('\n').map((item, index) => (
+                item.trim() && <li key={index}>{item.trim()}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>{content.description}</p>
+          )}
+          {content.isList ? (
+            <ul className="details-list">
+              {content.details.split('\n').map((item, index) => (
+                item.trim() && <li key={index}>{item.trim()}</li>
+              ))}
+            </ul>
+          ) : (
+            <div className="content-text" style={{ whiteSpace: 'pre-wrap' }}>
+              {content.details}
+            </div>
+          )}
         </div>
       );
     } else {
@@ -466,8 +573,8 @@ const ContentManager = () => {
   };
 
   const handleNewServiceSubmit = async () => {
-    if (!newService.title || !newService.description || !newService.details) {
-      toast.error('Lütfen tüm alanları doldurun.');
+    if (!newService.title) {
+      toast.error('Lütfen hizmet başlığını doldurun.');
       return;
     }
 
@@ -475,14 +582,18 @@ const ContentManager = () => {
       const serviceId = 'danismanlik-' + newService.title.toLowerCase().replace(/\s+/g, '-');
       await setDoc(doc(db, 'contents', serviceId), {
         title: newService.title,
-        description: newService.description,
-        details: newService.details
+        description: newService.description || '',
+        details: newService.details || '',
+        isList: newService.isList,
+        isDescriptionList: newService.isDescriptionList
       });
 
       setNewService({
         title: '',
         description: '',
-        details: ''
+        details: '',
+        isList: false,
+        isDescriptionList: false
       });
 
       toast.success('Yeni hizmet başarıyla eklendi.');
@@ -503,17 +614,78 @@ const ContentManager = () => {
           value={newService.title}
           onChange={(e) => setNewService({ ...newService, title: e.target.value })}
         />
-        <textarea
-          placeholder="Kısa Açıklama"
-          value={newService.description}
-          onChange={(e) => setNewService({ ...newService, description: e.target.value })}
-        />
-        <textarea
-          placeholder="Hizmet Detayları"
-          value={newService.details}
-          onChange={(e) => setNewService({ ...newService, details: e.target.value })}
-          rows="6"
-        />
+        <div className="details-type-selector">
+          <label>
+            <input
+              type="radio"
+              checked={!newService.isDescriptionList}
+              onChange={() => setNewService({ ...newService, isDescriptionList: false })}
+            />
+            Düz Metin
+          </label>
+          <label>
+            <input
+              type="radio"
+              checked={newService.isDescriptionList}
+              onChange={() => setNewService({ ...newService, isDescriptionList: true })}
+            />
+            Maddeler Halinde
+          </label>
+        </div>
+        {newService.isDescriptionList ? (
+          <div className="list-input-container">
+            <textarea
+              placeholder="Kısa Açıklama (Her satıra bir madde yazın)"
+              value={newService.description}
+              onChange={(e) => setNewService({ ...newService, description: e.target.value })}
+              rows="4"
+            />
+            <small>Her satıra bir madde yazın. Maddeler otomatik olarak numaralandırılacaktır.</small>
+          </div>
+        ) : (
+          <textarea
+            placeholder="Kısa Açıklama"
+            value={newService.description}
+            onChange={(e) => setNewService({ ...newService, description: e.target.value })}
+            rows="4"
+          />
+        )}
+        <div className="details-type-selector">
+          <label>
+            <input
+              type="radio"
+              checked={!newService.isList}
+              onChange={() => setNewService({ ...newService, isList: false })}
+            />
+            Düz Metin
+          </label>
+          <label>
+            <input
+              type="radio"
+              checked={newService.isList}
+              onChange={() => setNewService({ ...newService, isList: true })}
+            />
+            Maddeler Halinde
+          </label>
+        </div>
+        {newService.isList ? (
+          <div className="list-input-container">
+            <textarea
+              placeholder="Her satıra bir madde yazın"
+              value={newService.details}
+              onChange={(e) => setNewService({ ...newService, details: e.target.value })}
+              rows="6"
+            />
+            <small>Her satıra bir madde yazın. Maddeler otomatik olarak numaralandırılacaktır.</small>
+          </div>
+        ) : (
+          <textarea
+            placeholder="Hizmet Detayları"
+            value={newService.details}
+            onChange={(e) => setNewService({ ...newService, details: e.target.value })}
+            rows="6"
+          />
+        )}
         <button onClick={handleNewServiceSubmit}>Hizmet Ekle</button>
       </div>
     );
@@ -577,6 +749,13 @@ const ContentManager = () => {
   const handleImageChange = (e, imageId) => {
     const file = e.target.files[0];
     if (file) {
+      // Maksimum dosya boyutu: 5MB
+      const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+      if (file.size > maxSize) {
+        toast.error('Dosya boyutu çok büyük! Lütfen 5MB\'dan küçük bir dosya seçin.');
+        e.target.value = ''; // Input'u temizle
+        return;
+      }
       setImageUploads(prev => ({
         ...prev,
         [imageId]: file
@@ -595,6 +774,7 @@ const ContentManager = () => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('upload_preset', 'Blog_images');
+      formData.append('quality', '100');
 
       const response = await fetch(
         'https://api.cloudinary.com/v1_1/dgtaw69oo/image/upload',
@@ -701,7 +881,7 @@ const ContentManager = () => {
               <h3>{getContentTitle(id)}</h3>
               {editingContent === id ? (
                 <div className="edit-content">
-                  {renderEditForm(id, content)}
+                  {renderEditForm()}
                   <div className="button-group">
                     <button 
                       className="save-button"

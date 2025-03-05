@@ -1,47 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import './Ozgecmis.css';
-import benKimimImage from '../assets/benKimimImage.jpeg';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
+import './Ozgecmis.css';
 
 const Ozgecmis = () => {
-  const [aboutText, setAboutText] = useState('');
   const [profileImage, setProfileImage] = useState('');
+  const [aboutText, setAboutText] = useState('');
 
   useEffect(() => {
-    const fetchContents = async () => {
+    const fetchContent = async () => {
       try {
-        const aboutDoc = await getDoc(doc(db, 'contents', 'ozgecmis-about'));
-        const imagesDoc = await getDoc(doc(db, 'contents', 'images'));
-        
-        // Varsayılan değer
-        const defaultAbout = 'Merhaba! Ben Diyetisyen Halime Akdoğan. Hacettepe Üniversitesi Beslenme ve Diyetetik Bölümü mezunuyum. Sağlıklı beslenme konusundaki tutkum ve kişiselleştirilmiş beslenme planlarına olan inancım, her danışanım için özel bir yaklaşım geliştirmeme yardımcı oluyor.';
+        const docRef = doc(db, 'contents', 'ozgecmis-about');
+        const imagesRef = doc(db, 'contents', 'images');
+        const [docSnap, imagesSnap] = await Promise.all([
+          getDoc(docRef),
+          getDoc(imagesRef)
+        ]);
 
-        // Veriyi ayarla, eğer yoksa varsayılan değeri kullan
-        setAboutText(aboutDoc.exists() ? aboutDoc.data().text : defaultAbout);
-
-        if (imagesDoc.exists() && imagesDoc.data()['ozgecmis-image']) {
-          setProfileImage(imagesDoc.data()['ozgecmis-image']);
+        if (docSnap.exists()) {
+          setAboutText(docSnap.data().text);
         }
 
+        if (imagesSnap.exists() && imagesSnap.data()['ozgecmis-image']) {
+          setProfileImage(imagesSnap.data()['ozgecmis-image']);
+        }
       } catch (error) {
         console.error('İçerik getirilirken hata oluştu:', error);
       }
     };
 
-    fetchContents();
+    fetchContent();
   }, []);
 
   return (
-    <div className="ozgecmis-container">
+    <div className="ozgecmis-container page-transition">
       <div className="ozgecmis-header">
         <div className="profile-section">
           <div className="profile-image">
-            <img src={profileImage || benKimimImage} alt="Diyetisyen" loading="lazy" />
+            {profileImage && (
+              <img 
+                src={profileImage} 
+                alt="Diyetisyen Halime Akdoğan" 
+                loading="lazy" 
+              />
+            )}
           </div>
           <div className="profile-info">
             <h1>Dyt. Halime Akdoğan</h1>
-            <p className="title">Uzman Diyetisyen</p>
+            <p className="title"></p>
           </div>
         </div>
       </div>

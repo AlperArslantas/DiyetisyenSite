@@ -83,7 +83,7 @@
 
 .navbar-links a:hover,
 .navbar-links a.active {
-  color: #556B2F;
+  color: #4A4A4A;
   opacity: 1;
 }
 
@@ -94,7 +94,7 @@
   height: 2px;
   bottom: 0;
   left: 0;
-  background-color: #556B2F;
+  background-color: #4A4A4A;
   transition: width 0.3s;
 }
 

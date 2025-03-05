@@ -4,12 +4,11 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  animation: fadeIn 0.3s ease-out;
 }
 
 .modal-content {
@@ -21,121 +20,95 @@
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  animation: slideIn 0.3s ease-out;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .modal-close {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 15px;
+  right: 15px;
   background: none;
   border: none;
-  font-size: 24px;
-  color: #ffaa80;
+  font-size: 1.5rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  color: #666;
+  padding: 5px;
+  transition: color 0.3s ease;
 }
 
 .modal-close:hover {
-  color: #ff9966;
-  transform: rotate(90deg);
+  color: #ffaa80;
 }
 
 .modal-content h2 {
   color: #ffaa80;
-  font-size: 2rem;
-  margin-bottom: 20px;
-  text-align: center;
+  margin-bottom: 15px;
+  font-size: 1.8rem;
 }
 
 .service-description {
   color: #666;
   font-size: 1.1rem;
+  margin-bottom: 25px;
   line-height: 1.6;
-  margin-bottom: 30px;
-  text-align: center;
 }
 
 .service-section {
-  margin-bottom: 30px;
+  margin: 25px 0;
 }
 
 .service-section h3 {
-  color: #ff9966;
-  font-size: 1.3rem;
+  color: #ffaa80;
   margin-bottom: 15px;
-  border-bottom: 2px solid #ffe6d9;
-  padding-bottom: 10px;
+  font-size: 1.3rem;
 }
 
-.service-section ul,
-.service-section ol {
+.service-details-text {
+  color: #444;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.details-list {
+  list-style-type: decimal;
   padding-left: 20px;
+  color: #444;
 }
 
-.service-section li {
-  color: #666;
+.details-list li {
   margin-bottom: 10px;
-  line-height: 1.5;
+  line-height: 1.6;
+  position: relative;
+  padding-left: 25px;
+}
+
+.details-list li:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  background-color: #ffaa80;
+  border-radius: 50%;
 }
 
 .contact-button {
-  display: block;
-  width: 100%;
-  padding: 15px;
-  background: #ffaa80;
+  background: linear-gradient(45deg, #ffaa80, #ffcc99);
   color: white;
   border: none;
-  border-radius: 8px;
+  padding: 12px 30px;
+  border-radius: 25px;
   font-size: 1.1rem;
-  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 30px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 20px;
+  width: 100%;
 }
 
 .contact-button:hover {
-  background: #ff9966;
   transform: translateY(-2px);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Scrollbar stilleri */
-.modal-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.modal-content::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
-
-.modal-content::-webkit-scrollbar-thumb {
-  background: #ffaa80;
-  border-radius: 4px;
-}
-
-.modal-content::-webkit-scrollbar-thumb:hover {
-  background: #ff9966;
+  box-shadow: 0 4px 15px rgba(255, 170, 128, 0.3);
 }
 
 @media (max-width: 768px) {
@@ -145,14 +118,18 @@
   }
 
   .modal-content h2 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
 
   .service-description {
     font-size: 1rem;
   }
 
-  .service-section h3 {
-    font-size: 1.2rem;
+  .details-list {
+    padding-left: 15px;
+  }
+
+  .details-list li {
+    padding-left: 20px;
   }
 } 
