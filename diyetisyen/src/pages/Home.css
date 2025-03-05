@@ -2,40 +2,20 @@
   max-width: 100%;
   margin: 0 auto;
   position: relative;
-  background-color: #fdecd7;
+  min-height: 100vh;
 }
 
 .hero-section {
   display: flex;
   min-height: calc(100vh - 83px);
   position: relative;
-  background-color: #fdecd7;
-}
-
-.hero-section::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  background-image: linear-gradient(to right, rgba(255, 170, 128, 0.1), rgba(255, 170, 128, 0.05));
-  z-index: 1;
-  animation: slideInRight 1s ease-out forwards;
-  transform-origin: left;
-}
-
-.hero-section::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  background-image: linear-gradient(to left, rgba(255, 170, 128, 0.1), rgba(255, 170, 128, 0.05));
-  z-index: 1;
-  animation: slideInRight 1s ease-out forwards;
-  transform-origin: right;
+  width: 100vw;
+  overflow-x: hidden;
+  background: linear-gradient(180deg, 
+    rgba(255, 218, 185, 0.95) 0%,
+    rgba(248, 220, 197, 0.85) 50%,
+    rgba(253, 217, 181, 0.75) 100%
+  );
 }
 
 .hero-content {
@@ -50,102 +30,87 @@
   z-index: 2;
 }
 
+.welcome-text {
+  flex: 1;
+  max-width: 600px;
+  position: relative;
+  padding: 3rem 0;
+}
+
+.welcome-text::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100vw;
+  right: 100%;
+  width: 200vw;
+  height: 100%;
+  background-color: #FDE5D2;
+  box-shadow: 0 4px 30px rgba(253, 217, 181, 0.3);
+  backdrop-filter: blur(5px);
+  z-index: -1;
+}
+
+.welcome-text h1 {
+  font-size: 6rem;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 2rem;
+  font-weight: 300;
+  font-family: 'Segoe UI', sans-serif;
+  text-transform: lowercase;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-text p {
+  font-size: 1.2rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
 .home-profile-container {
   flex-shrink: 0;
-  width: 500px;
+  width: 450px;
   height: 500px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 2;
 }
 
 .home-profile-container::before {
-  content: '';
-  position: absolute;
-  width: 450px;
-  height: 450px;
-  border-radius: 50%;
-  border: 5px solid white;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: none;
 }
 
 .home-profile-image {
-  width: 450px;
-  height: 450px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 10px;
   position: relative;
   z-index: 2;
-}
-
-.welcome-text {
-  flex: 1;
-  max-width: 500px;
-  background-color: rgba(255, 255, 255, 0.3);
-  padding: 2.5rem;
-  border-radius: 20px;
-  margin-right: 2rem;
-}
-
-.welcome-text h1 {
-  font-size: 4rem;
-  color: #000;
-  margin-bottom: 1.5rem;
-  font-weight: bold;
-}
-
-.welcome-text p {
-  font-size: 1.3rem;
-  color: #333;
-  line-height: 1.6;
-  margin-bottom: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-top: -60px;
 }
 
 .hero-image-container {
-  width: 375px;
-  height: 530px;
-  display: flex;
-  justify-content: center;
+  width: 450px;
+  height: 450px;
   position: relative;
   z-index: 2;
-  margin-bottom: 40px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.image-frame {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  background-color: #ffaa80;
-  border-radius: 8px;
+  border-radius: 50%;
   overflow: hidden;
-  transition: transform 0.3s ease;
-}
-
-.image-frame:hover {
-  transform: scale(1.02);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .hero-image {
-  width: 300px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 50%;
-  position: absolute;
-  top: 100px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
-  border: 5px solid #ffffff;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
-}
-
-.hero-image:hover {
-  transform: translateX(-50%) scale(1.05);
 }
 
 .welcome-message {
@@ -233,7 +198,7 @@
 
 .blog-intro h2 {
   font-size: 2.5rem;
-  color: #4B5320;
+  color: #FFB599;
   margin-bottom: 15px;
   font-weight: 700;
   position: relative;
@@ -248,7 +213,7 @@
   transform: translateX(-50%);
   width: 60px;
   height: 3px;
-  background: #4B5320;
+  background: #FFA483;
 }
 
 .blog-intro p {
@@ -307,7 +272,7 @@
 
 .blog-content h3 {
   font-size: 1.4rem;
-  color: #4B5320;
+  color: #FFB599;
   margin-bottom: 12px;
   line-height: 1.4;
 }
@@ -320,7 +285,7 @@
 }
 
 .read-more {
-  color: #4B5320;
+  color: #FFB599;
   font-weight: 600;
   display: inline-flex;
   align-items: center;
@@ -328,7 +293,7 @@
 }
 
 .blog-card:hover .read-more {
-  color: #6B8E23;
+  color: #FFA483;
 }
 
 /* Animasyonlar */
@@ -407,44 +372,29 @@
 
   .hero-content {
     flex-direction: column;
+    padding: 1rem 2rem;
     gap: 2rem;
-    padding: 1rem;
-  }
-
-  .home-profile-container {
-    width: 350px;
-    height: 350px;
-  }
-
-  .home-profile-container::before {
-    width: 300px;
-    height: 300px;
-  }
-
-  .home-profile-image {
-    width: 300px;
-    height: 300px;
   }
 
   .welcome-text {
     text-align: center;
-    padding: 1.5rem;
-    margin-right: 0;
+    padding: 2rem 0;
   }
 
   .welcome-text h1 {
-    font-size: 2.5rem;
+    font-size: 4rem;
   }
 
-  .hero-buttons {
-    flex-direction: column;
-    width: 100%;
-    max-width: 300px;
+  .welcome-text p {
+    font-size: 1.1rem;
   }
 
-  .hero-button {
+  .home-profile-container {
     width: 100%;
-    text-align: center;
+    max-width: 350px;
+    height: auto;
+    aspect-ratio: 1;
+    margin: 2rem auto;
   }
 
   .home-buttons {

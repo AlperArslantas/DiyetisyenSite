@@ -63,7 +63,7 @@ const Home = () => {
 
       <section className="blog-section">
         <div className="blog-intro">
-          <h2>Blog Yazılarım</h2>
+          <h2>Blog </h2>
           <div className="title-underline"></div>
           <p>Sağlıklı beslenme ve yaşam tarzı hakkında bilgilendirici yazılar</p>
         </div>
