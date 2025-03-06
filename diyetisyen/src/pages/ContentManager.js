@@ -228,12 +228,15 @@ const ContentManager = () => {
         return;
       }
 
-      if (editingContent === 'danismanlik-details') {
+      if (editingContent === 'danismanlik-details' || editingContent === 'ozgecmis-about') {
         const parsedContent = JSON.parse(editedText);
-        await updateDoc(doc(db, 'contents', editingContent), {
-          title: parsedContent.title,
+        const contentToSave = {
+          title: parsedContent.title || '',
           paragraphs: parsedContent.paragraphs || []
-        });
+        };
+        
+        await updateDoc(doc(db, 'contents', editingContent), contentToSave);
+        toast.success('İçerik başarıyla güncellendi!');
       } else if (editingContent === 'anasayfa-hero') {
         const parsedContent = JSON.parse(editedText);
         await updateDoc(doc(db, 'contents', editingContent), {
@@ -798,8 +801,15 @@ const ContentManager = () => {
         throw new Error(data.message || 'Resim yüklenirken bir hata oluştu');
       }
 
-      // Cloudinary URL'sine transformation parametrelerini ekle
-      const optimizedUrl = data.secure_url.replace('/upload/', '/upload/q_auto:good,f_auto,w_auto,c_scale/');
+      // Her resim için özel transformasyon ayarları
+      let optimizedUrl;
+      if (imageId === 'anasayfa-hero-image') {
+        // Anasayfa hero resmi için geniş ve yüksek kalite
+        optimizedUrl = data.secure_url.replace('/upload/', '/upload/q_auto:best,f_auto,w_1920,c_fill,g_auto/');
+      } else if (imageId === 'hakkimda-image' || imageId === 'ozgecmis-image') {
+        // Profil resimleri için orta boyut ve yüksek kalite
+        optimizedUrl = data.secure_url.replace('/upload/', '/upload/q_100,f_auto,w_800,h_800,c_fill,g_face/');
+      }
 
       const updatedUrls = {
         ...imageUrls,

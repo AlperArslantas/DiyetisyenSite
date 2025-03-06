@@ -18,7 +18,11 @@ const Ozgecmis = () => {
         const imagesDoc = await getDoc(doc(db, 'contents', 'images'));
         
         if (docSnap.exists()) {
-          setAboutContent(docSnap.data());
+          const data = docSnap.data();
+          setAboutContent({
+            title: data.title || 'Dyt. Halime Akdoğan',
+            paragraphs: data.paragraphs || []
+          });
         }
         
         if (imagesDoc.exists()) {

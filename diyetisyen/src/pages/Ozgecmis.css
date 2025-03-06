@@ -20,9 +20,9 @@
 }
 
 .profile-image {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
+  width: 420px;
+  height: 420px;
+  
   overflow: hidden;
   border: 5px solid #ffd9b3;
   box-shadow: 0 5px 20px rgba(255, 170, 128, 0.1);
