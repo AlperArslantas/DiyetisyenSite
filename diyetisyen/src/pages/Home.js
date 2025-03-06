@@ -68,7 +68,7 @@ const Home = () => {
         <div className="blog-intro">
           <h2>Blog </h2>
           <div className="title-underline"></div>
-          <p>Sağlıklı beslenme ve yaşam tarzı hakkında bilgilendirici yazılar</p>
+      
         </div>
         <div className="blog-grid">
           {posts.map((post, index) => (

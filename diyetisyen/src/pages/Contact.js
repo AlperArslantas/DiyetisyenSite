@@ -38,6 +38,7 @@ const Contact = () => {
         const contactInfoSnap = await getDoc(contactInfoRef);
         
         if (contactInfoSnap.exists()) {
+          console.log('İletişim bilgileri:', contactInfoSnap.data());
           setContactInfo(contactInfoSnap.data());
         }
       } catch (error) {

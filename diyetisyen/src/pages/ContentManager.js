@@ -73,6 +73,7 @@ const ContentManager = () => {
         phone: '+90 555 555 55 55'
       };
       await setDoc(doc(db, 'contents', 'iletisim-bilgileri'), contactData);
+      setContactInfo(contactData);
       await fetchContents();
       toast.success('İletişim bilgileri başarıyla oluşturuldu!');
     } catch (error) {
@@ -154,6 +155,11 @@ const ContentManager = () => {
   };
 
   const handleEdit = (contentId) => {
+    if (contentId === 'iletisim-bilgileri') {
+      setEditingContent(contentId);
+      return;
+    }
+
     if (contentId === 'danismanlik-details' || contentId === 'ozgecmis-about') {
       const content = contents[contentId];
       setEditedText(JSON.stringify({
@@ -217,6 +223,11 @@ const ContentManager = () => {
     if (!editingContent) return;
 
     try {
+      if (editingContent === 'iletisim-bilgileri') {
+        await handleContactInfoSave();
+        return;
+      }
+
       if (editingContent === 'danismanlik-details') {
         const parsedContent = JSON.parse(editedText);
         await updateDoc(doc(db, 'contents', editingContent), {
@@ -276,12 +287,18 @@ const ContentManager = () => {
     }
 
     try {
-      await setDoc(doc(db, 'contents', 'iletisim-bilgileri'), contactInfo);
+      console.log('Kaydedilecek iletişim bilgileri:', contactInfo);
+      const contactData = {
+        email: contactInfo.email || '',
+        phone: contactInfo.phone || ''
+      };
+      await setDoc(doc(db, 'contents', 'iletisim-bilgileri'), contactData);
       setContents(prev => ({
         ...prev,
-        'iletisim-bilgileri': contactInfo
+        'iletisim-bilgileri': contactData
       }));
       toast.success('İletişim bilgileri başarıyla güncellendi!');
+      setEditingContent(null);
     } catch (error) {
       console.error('İletişim bilgileri güncellenirken hata:', error);
       toast.error('İletişim bilgileri güncellenirken bir hata oluştu!');
