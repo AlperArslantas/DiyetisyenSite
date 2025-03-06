@@ -8,15 +8,21 @@ const Ozgecmis = () => {
     title: '',
     paragraphs: []
   });
+  const [aboutImage, setAboutImage] = useState(null);
 
   useEffect(() => {
     const fetchAboutContent = async () => {
       try {
         const docRef = doc(db, 'contents', 'ozgecmis-about');
         const docSnap = await getDoc(docRef);
+        const imagesDoc = await getDoc(doc(db, 'contents', 'images'));
         
         if (docSnap.exists()) {
           setAboutContent(docSnap.data());
+        }
+        
+        if (imagesDoc.exists()) {
+          setAboutImage(imagesDoc.data()['ozgecmis-image']);
         }
       } catch (error) {
         console.error('Özgeçmiş içeriği getirilirken hata oluştu:', error);
@@ -29,7 +35,14 @@ const Ozgecmis = () => {
   return (
     <div className="ozgecmis-container page-transition">
       <div className="about-section">
-        <h1>{aboutContent.title || 'Özgeçmiş'}</h1>
+        <h1>
+          {aboutImage && (
+            <div className="profile-image">
+              <img src={aboutImage} alt="Diyetisyen Halime Akdoğan" />
+            </div>
+          )}
+          {aboutContent.title || 'Dyt. Halime Akdoğan'}
+        </h1>
         <div className="content-section">
           {aboutContent.paragraphs?.map((paragraph, index) => (
             <p key={index}>{paragraph}</p>

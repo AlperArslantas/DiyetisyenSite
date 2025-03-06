@@ -784,7 +784,15 @@ const ContentManager = () => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('upload_preset', 'Blog_images');
-      formData.append('quality', '100');
+      formData.append('transformation', JSON.stringify([
+        { 
+          quality: "auto:best",
+          dpr: "auto",
+          fetch_format: "auto",
+          width: "auto",
+          crop: "scale"
+        }
+      ]));
 
       const response = await fetch(
         'https://api.cloudinary.com/v1_1/dgtaw69oo/image/upload',
