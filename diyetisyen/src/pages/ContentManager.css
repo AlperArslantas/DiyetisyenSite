@@ -699,4 +699,57 @@
   .image-upload-section {
     padding: 15px;
   }
+}
+
+.paragraph-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.paragraph-group textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.delete-paragraph {
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.delete-paragraph:hover {
+  background-color: #ff5252;
+}
+
+.add-paragraph {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.add-paragraph:hover {
+  background-color: #45a049;
 } 

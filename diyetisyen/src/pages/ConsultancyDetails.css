@@ -1,3 +1,5 @@
+
+
 .consultancy-details-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -36,6 +38,7 @@
   padding: 40px;
   border-radius: 20px;
   box-shadow: 0 4px 15px rgba(255, 170, 128, 0.1);
+  
 }
 
 .content-section p {
@@ -43,6 +46,7 @@
   font-size: 1.1rem;
   line-height: 1.8;
   white-space: pre-wrap;
+
 }
 
 .intro-section {

@@ -50,7 +50,10 @@ const ContentManager = () => {
     try {
       const ozgecmisContents = {
         'ozgecmis-about': {
-          text: 'Merhaba! Ben Diyetisyen Halime Akdoğan. Hacettepe Üniversitesi Beslenme ve Diyetetik Bölümü mezunuyum. Sağlıklı beslenme konusundaki tutkum ve kişiselleştirilmiş beslenme planlarına olan inancım, her danışanım için özel bir yaklaşım geliştirmeme yardımcı oluyor.'
+          title: 'Özgeçmiş',
+          paragraphs: [
+            'Merhaba! Ben Diyetisyen Halime Akdoğan. Hacettepe Üniversitesi Beslenme ve Diyetetik Bölümü mezunuyum. Sağlıklı beslenme konusundaki tutkum ve kişiselleştirilmiş beslenme planlarına olan inancım, her danışanım için özel bir yaklaşım geliştirmeme yardımcı oluyor.'
+          ]
         }
       };
 
@@ -151,10 +154,16 @@ const ContentManager = () => {
   };
 
   const handleEdit = (contentId) => {
-    if (contentId === 'danismanlik-details') {
+    if (contentId === 'danismanlik-details' || contentId === 'ozgecmis-about') {
+      const content = contents[contentId];
+      setEditedText(JSON.stringify({
+        title: content.title || '',
+        paragraphs: content.paragraphs || []
+      }, null, 2));
+    } else if (contentId === 'anasayfa-hero') {
       setEditedText(JSON.stringify({
         title: contents[contentId].title || '',
-        paragraphs: contents[contentId].paragraphs || []
+        text: contents[contentId].text || ''
       }, null, 2));
     } else if (contentId.startsWith('danismanlik-') && contentId !== 'danismanlik-intro') {
       setEditedText(JSON.stringify({
@@ -162,11 +171,6 @@ const ContentManager = () => {
         description: contents[contentId].description || '',
         details: contents[contentId].details || '',
         isList: contents[contentId].isList || false
-      }, null, 2));
-    } else if (contentId === 'anasayfa-hero') {
-      setEditedText(JSON.stringify({
-        title: contents[contentId].title || '',
-        text: contents[contentId].text || ''
       }, null, 2));
     } else {
       setEditedText(contents[contentId].text || '');
@@ -299,21 +303,10 @@ const ContentManager = () => {
   };
 
   const renderEditForm = () => {
-    if (editingContent === 'danismanlik-details') {
+    if (editingContent === 'danismanlik-details' || editingContent === 'ozgecmis-about') {
       const content = JSON.parse(editedText);
       return (
         <div className="edit-form">
-          <div className="form-group">
-            <label>Başlık:</label>
-            <input
-              type="text"
-              value={content.title || ''}
-              onChange={(e) => {
-                const newContent = { ...content, title: e.target.value };
-                setEditedText(JSON.stringify(newContent));
-              }}
-            />
-          </div>
           <div className="form-group">
             <label>Paragraflar:</label>
             {content.paragraphs?.map((paragraph, index) => (
