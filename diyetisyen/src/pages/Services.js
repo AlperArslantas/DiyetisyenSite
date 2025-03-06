@@ -33,7 +33,9 @@ const Services = () => {
               title: doc.data().title,
               description: doc.data().description,
               details: doc.data().details,
-              process: doc.data().process
+              process: doc.data().process,
+              isDescriptionList: doc.data().isDescriptionList,
+              isList: doc.data().isList
             });
           }
         });
@@ -119,7 +121,15 @@ const Services = () => {
         {services.map(service => (
           <div key={service.id} className="service-card animate">
             <h2 className="service-title">{service.title}</h2>
-            <p className="service-description">{service.description}</p>
+            {service.isDescriptionList ? (
+              <ul className="service-details">
+                {service.description.split('\n').map((item, index) => (
+                  item.trim() && <li key={index}>{item.trim()}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className="service-description">{service.description}</p>
+            )}
             <button 
               className="details-button"
               onClick={() => setSelectedService(service)}

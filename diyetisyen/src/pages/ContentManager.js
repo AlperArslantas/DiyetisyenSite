@@ -784,15 +784,6 @@ const ContentManager = () => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('upload_preset', 'Blog_images');
-      formData.append('transformation', JSON.stringify([
-        { 
-          quality: "auto:best",
-          dpr: "auto",
-          fetch_format: "auto",
-          width: "auto",
-          crop: "scale"
-        }
-      ]));
 
       const response = await fetch(
         'https://api.cloudinary.com/v1_1/dgtaw69oo/image/upload',
@@ -807,9 +798,12 @@ const ContentManager = () => {
         throw new Error(data.message || 'Resim yüklenirken bir hata oluştu');
       }
 
+      // Cloudinary URL'sine transformation parametrelerini ekle
+      const optimizedUrl = data.secure_url.replace('/upload/', '/upload/q_auto:good,f_auto,w_auto,c_scale/');
+
       const updatedUrls = {
         ...imageUrls,
-        [imageId]: data.secure_url
+        [imageId]: optimizedUrl
       };
 
       await setDoc(doc(db, 'contents', 'images'), updatedUrls);
@@ -828,7 +822,10 @@ const ContentManager = () => {
       toast.success('Resim başarıyla yüklendi!');
     } catch (error) {
       console.error('Resim yüklenirken hata:', error);
-      toast.error('Resim yüklenirken bir hata oluştu!');
+      if (error.response) {
+        console.error('Cloudinary yanıtı:', await error.response.json());
+      }
+      toast.error(`Resim yüklenirken bir hata oluştu: ${error.message}`);
     }
   };
 
