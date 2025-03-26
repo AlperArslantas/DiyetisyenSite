@@ -3,13 +3,13 @@ import { getFirestore, collection, doc, setDoc } from 'firebase/firestore';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD296EUwe-YfSp-4bW3Pz2TbYhy-4-H8VU",
-  authDomain: "diyetisyen-3809c.firebaseapp.com",
-  projectId: "diyetisyen-3809c",
-  storageBucket: "diyetisyen-3809c.firebasestorage.app",
-  messagingSenderId: "401795538751",
-  appId: "1:401795538751:web:8b3658eee784e2fbae7d8a",
-  measurementId: "G-PZHLE60HVQ"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
 // Firebase'i başlat
@@ -40,7 +40,7 @@ const initialContents = {
 async function initializeContents() {
   try {
     // Önce giriş yapalım
-    await signInWithEmailAndPassword(auth, 'diyetisyen.web1@gmail.com', 'alp123456');
+    await signInWithEmailAndPassword(auth, process.env.REACT_APP_ADMIN_EMAIL, process.env.REACT_APP_ADMIN_PASSWORD);
     console.log('Giriş başarılı!');
 
     // İçerikleri ekleyelim
